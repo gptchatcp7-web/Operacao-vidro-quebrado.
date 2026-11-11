@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dispositivo de Augusto Valença</title>
+<style>
+:root{--bg:#10151b;--panel:#1b2530;--line:#344454;--txt:#edf3f8;--muted:#aab8c5;--green:#8ed6b0;--gold:#e7c77a}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--txt);font:16px system-ui,sans-serif}
+header{padding:18px 16px;background:#17212b;border-bottom:1px solid var(--line)}header small{color:var(--muted)}
+main{max-width:760px;margin:auto;padding:16px}.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:15px;margin:12px 0}
+input,button{font:inherit;border-radius:10px;border:1px solid var(--line);padding:11px;background:#111a22;color:var(--txt)}
+button{cursor:pointer}.tabs{display:flex;gap:7px;flex-wrap:wrap}.tabs button{flex:1;min-width:88px}.tabs button.active{background:#284b40;border-color:var(--green)}
+.item{padding:12px 0;border-bottom:1px solid var(--line)}.item:last-child{border:0}.meta{color:var(--muted);font-size:13px}.hidden{display:none}
+#pin{letter-spacing:7px;font-size:22px;text-align:center;width:180px}.note{color:var(--gold)}.bubble{background:#263746;padding:10px 12px;border-radius:12px;margin:8px 0;max-width:92%}
+</style></head><body>
+<header><b>DISPOSITIVO PESSOAL — A. VALENÇA</b><br><small>Backup local recuperado • interface simulada para investigação</small></header>
+<main>
+<section id="lock" class="card"><h2>Bloqueio do dispositivo</h2><p>Digite o código de seis números.</p>
+<input id="pin" inputmode="numeric" maxlength="6" placeholder="••••••" aria-label="Código de acesso">
+<button onclick="unlock()">Desbloquear</button><p id="err" class="note" aria-live="polite"></p>
+<p class="meta">Dica: o livro de visitas registra a data de inauguração da Fundação Valença. O aparelho usa DDMMAA.</p></section>
+<section id="phone" class="hidden"><div class="card"><b>Augusto Valença</b><div class="meta">Último backup: 22:36 • dispositivo simulado</div></div>
+<nav class="tabs" id="tabs" aria-label="Aplicativos"></nav><section id="content" class="card" aria-live="polite"></section></section>
+</main>
+<script>
+const data={
+"Mensagens":[
+["21:04 • Helena","Você prometeu que hoje resolveria isso. Não vou continuar cobrindo suas decisões."],
+["21:11 • Augusto → Clara","O livro-caixa não pode sair daqui antes de eu conferir a coluna de setembro."],
+["21:18 • Clara","Não misture o que eu fiz para proteger a família com o que você está prestes a fazer."],
+["21:27 • Lívia","O senhor pediu que eu deixasse a pasta azul na sala de música. Ela está lá."],
+["21:32 • Augusto → Davi","A chave reserva voltou para o quadro? Preciso que o corredor do escritório fique livre."],
+["21:36 • Davi","A chave está no quadro. O corredor está livre."],
+["21:48 • Tomás","Tio, eu não peguei o documento. Você sabe que eu não entraria no escritório."],
+["22:03 • Bruno","A bandeja foi recolhida. O senhor pediu água sem gelo, como sempre."],
+["22:17 • contato não salvo","Você não devia ter aberto o arquivo antigo. Ainda dá tempo de conversar."],
+["22:21 • Augusto → contato não salvo","Não. Às 22h30 vou contar tudo."],
+["22:24 • Augusto → Davi","Precisamos conversar agora. Não vou adiar mais."]
+],
+"Chamadas":[
+["20:56 • Clara • 2 min 14 s","Chamada atendida"],
+["21:39 • Helena • 48 s","Chamada não atendida"],
+["21:52 • Davi • 19 s","Chamada atendida"],
+["22:08 • Número privado • 11 s","Chamada perdida"],
+["22:24 • Davi • 32 s","Chamada atendida"]
+],
+"Galeria":[
+["21:02 • Mesa da recepção","A fotografia mostra o livro de visitas aberto. A página de 14/09/2018 está marcada com uma pequena estrela."],
+["21:44 • Corredor leste","O relógio digital ao fundo marca 21:44. No reflexo do vidro aparece uma pessoa usando uma luva clara; o rosto não é identificável."],
+["22:06 • Quadro de chaves","O gancho identificado como E-3 está vazio. A etiqueta de inventário indica que a chave deveria estar no quadro."],
+["Registro de cena • arquivo policial","O fragmento de lacre azul foi fotografado pela equipe de investigação no escritório. Esta imagem não fazia parte da galeria pessoal de Augusto."]
+],
+"Notas":[
+["Rascunho — reunião","Conferir: livro-caixa / cópia do recibo / registro de chaves. Não aceitar explicação baseada apenas no horário."],
+["Lista de tarefas","22h30 — anunciar auditoria dos contratos. Chamar Clara para explicar a planilha. Chamar Davi para explicar os recibos 0441 e 0442."],
+["Lembrete","Fundação Valença: inauguração em 14/09/2018. Código do arquivo antigo segue padrão DDMMAA."]
+],
+"E-mails":[
+["21:15 • Clara para Augusto","A classificação das despesas foi alterada por mim, mas os dados bancários vieram do terminal administrativo. Não vou assumir uma transferência que não fiz."],
+["21:49 • Financeiro para Augusto","Os recibos 0441 e 0442 possuem numeração duplicada. Ambos foram aprovados pelo usuário DM-04."],
+["22:02 • Augusto — rascunho não enviado","Davi, encontrei o vínculo entre a Norte Leste e a conta de destino. Às 22h30 vou apresentar os comprovantes. Não tente impedir."]
+],
+"Arquivos":[
+["Recibo_0441.pdf","Norte Leste Serviços • R$ 18.700,00 • aprovado por DM-04."],
+["Recibo_0442.pdf","Mesmo número de referência e mesma descrição do recibo 0441; pagamento duplicado."],
+["Auditoria_resumo.txt","O cadastro bancário de recebimento foi alterado a partir do terminal administrativo da guarita, sessão DM-04."],
+["Agenda_18-10.txt","22h30 — resolver de uma vez. Levar livro-caixa e cópias."]
+]
+};
+function unlock(){const v=document.getElementById('pin').value;if(v==='140918'){document.getElementById('lock').classList.add('hidden');document.getElementById('phone').classList.remove('hidden');renderTabs();show('Mensagens')}else{document.getElementById('err').textContent='Código incorreto. Procure a pista no livro de visitas.'}}
+document.getElementById('pin').addEventListener('keydown',e=>{if(e.key==='Enter')unlock()});
+function renderTabs(){const t=document.getElementById('tabs');Object.keys(data).forEach((k,i)=>{const b=document.createElement('button');b.textContent=k;b.onclick=()=>show(k);b.id='tab'+i;t.appendChild(b)})}
+function show(k){document.querySelectorAll('.tabs button').forEach(b=>b.classList.remove('active'));[...document.querySelectorAll('.tabs button')].find(b=>b.textContent===k).classList.add('active');const c=document.getElementById('content');c.innerHTML='<h3>'+k+'</h3>';data[k].forEach(x=>{const d=document.createElement('div');d.className='item';const h=document.createElement('b');h.textContent=x[0];const p=document.createElement('p');p.textContent=x[1];p.style.marginBottom='0';d.append(h,p);c.appendChild(d)})}
+</script></body></html>
